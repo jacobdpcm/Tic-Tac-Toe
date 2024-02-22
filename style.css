@@ -6,4 +6,33 @@ body {
     color: black;
     overflow-y: auto;
     overflow-x: auto;
+    display: grid;
+    grid-template-rows: 5rem 5rem 1fr;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: center;
+    background-color: beige;
+}
+
+.score {
+    display: flex;
+    width: 30rem;
+    justify-content: space-between;
+}
+
+.wrapper {
+    
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 10rem);
+    grid-template-rows: repeat(3, 10rem);
+    background-color: black;
+    gap: 1rem;
+
+}
+
+.cell {
+    background-color: beige;
 }
