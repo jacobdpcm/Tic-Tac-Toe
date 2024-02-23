@@ -7,21 +7,62 @@ body {
     overflow-y: auto;
     overflow-x: auto;
     display: grid;
-    grid-template-rows: 5rem 5rem 1fr;
+    grid-template-rows: 6rem 6rem 1fr;
     grid-template-columns: 1fr;
     align-items: center;
     justify-items: center;
-    background-color: beige;
+    background-color: rgb(236, 236, 176);
+}
+
+.header{
+    font-size: 52pt;
+    padding: 1rem;
+    width: 850px;
 }
 
 .score {
     display: flex;
-    width: 30rem;
+    width: 40rem;
+    font-size: 40pt;
     justify-content: space-between;
+}
+
+.player2score {
+    text-align: end;
+}
+
+.player {
+    font-size: 16pt;
+}
+
+.turn1::after {
+    font-size: 16pt;
+    color: rgb(3, 90, 3);
+    content: "Turn";
+    background-color: rgb(255, 183, 0);
+    border: 2px solid black;
+    padding: .5rem;
+    margin-left: 1rem;
+}
+
+.turn2::before {
+    font-size: 16pt;
+    color: rgb(3, 90, 3);
+    content: "Turn";
+    background-color: rgb(255, 183, 0);
+    border: 2px solid black;
+    padding: .5rem;
+    margin-right: 1rem;
 }
 
 .wrapper {
     
+}
+
+.roundEnd {
+    text-align: center;
+    padding: 1rem;
+    font-size: 24pt;
 }
 
 .board {
@@ -30,9 +71,22 @@ body {
     grid-template-rows: repeat(3, 10rem);
     background-color: black;
     gap: 1rem;
+    
 
 }
 
 .cell {
-    background-color: beige;
+    background-color: rgb(236, 236, 176);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100pt;
+}
+
+.winner {
+    color: rgb(178, 8, 200);
+}
+
+.test {
+    background-color: black !important;
 }
