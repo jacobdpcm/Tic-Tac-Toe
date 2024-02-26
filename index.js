@@ -3,7 +3,7 @@ const gameboard = (function(){
     let cells = [0,0,0,0,0,0,0,0,0];
     let turn = 1;
 
-    const resetBoard = cells => {cells = [0,0,0,0,0,0,0,0,0]};
+    const resetBoard = () => {cells = [0,0,0,0,0,0,0,0,0]};
     const changeCell = (index, playerTurn) => {
         if(cells[index] === 0){cells[index] = playerTurn} else {return 'error'};
         winCheck(playerTurn);
@@ -40,6 +40,34 @@ const domControl = (function(){
     const player1 = document.querySelector('.one');
     const player2 = document.querySelector('.two');
     const cells = document.querySelectorAll('.cell');
+    const roundMessage = document.querySelector('.roundEnd span');
+    const player1score = document.querySelector('.player1score');
+    const player2score = document.querySelector('.player2score');
+    const playerNameButtons = document.querySelectorAll('.score img');
+    const player1Name = document.querySelector('span.editablename1');
+    const player2Name = document.querySelector('span.editablename2');
+    const newRoundButton = document.querySelector('.roundEnd button');
+    
+    let gameFlag = 1;
+
+    const renderNewName = () => playerNameButtons.forEach((button,index) => {
+        button.addEventListener('click', () => {
+            const newName = prompt('Enter a player name', 'Player');
+            if(index === 0 && newName !== null && newName !== ''){
+                playerOne.updatePlayerName(newName);
+                player1Name.textContent = newName;
+            }
+            if(index === 1 && newName !== '' && newName !== ''){
+                playerTwo.updatePlayerName(newName);
+                player2Name.textContent = newName;
+            }
+        })
+    })
+
+    const toggleGameFlag = () => {
+        if(gameFlag === 0){gameFlag = 1}
+        else {gameFlag = 0}
+    }
 
     const changeTurn = () => {
         player1.classList.remove('turn1');
@@ -58,46 +86,75 @@ const domControl = (function(){
     const fullTurn = (nodeIndex, playerTurn) => {
         gameboard.changeCell(nodeIndex, playerTurn);
         const winCheck = gameboard.winCheck(playerTurn);
-        if(winCheck === 1){
-            //LEFT OFF HERE FIGURE OUT HOW TO REMOVE EVENT LISTENERS
-        }
-
+        if(winCheck !== 0){
+            toggleGameFlag();
+            newRoundButton.classList.remove('buttonHide');
+            if(winCheck === 1){
+            roundMessage.textContent = playerOne.getPlayerName() + ' has won!';
+            playerOne.updateScore();
+            player1score.textContent = playerOne.getScore();
+            }
+            if(winCheck === 2){
+            roundMessage.textContent = playerTwo.getPlayerName() + ' has won!';
+            playerTwo.updateScore();
+            player2score.textContent = playerTwo.getScore();
+            }
+            if(winCheck === 3) {
+                roundMessage.textContent = "It's a tie.";
+            }
+        } else {
         gameboard.makeTurn();
         changeTurn();
+        }
     }
     
-    const updateBoard = () => {
+    const configureBoard = () => {
         cells.forEach((cell, index) => {cell.addEventListener('click', () => {
-            let turn = gameboard.getTurn();
-            if(turn === 1 && cell.textContent === ''){
+            if(gameFlag === 1){
+                let turn = gameboard.getTurn();
+                if(turn === 1 && cell.textContent === ''){
                 cell.textContent = 'X';
                 fullTurn(index, turn);
-            } else if(turn === 2 && cell.textContent=== ''){
+                } else if(turn === 2 && cell.textContent=== ''){
                 cell.textContent = 'O';
                 fullTurn(index, turn);
-            }
-            
-            
-            
+                }
+            }         
         })})
     }
 
-    return {changeTurn, updateBoard,}
+    const newRound = () => {
+        gameboard.resetBoard();
+        cells.forEach(cell => cell.textContent = '');
+        roundMessage.textContent = '';
+        gameboard.makeTurn();
+        changeTurn();
+        gameFlag = 1;
+        newRoundButton.classList.add('buttonHide');
+    }
+    newRoundButton.addEventListener('click', newRound);
+
+    return {changeTurn, configureBoard, toggleGameFlag, renderNewName, newRound,}
 })();
 
 //Normal Factories
 const newPlayer = function(name){
     let score = 0;
+    let playerName = name;
 
-    const updateScore = () => score++
+    const updatePlayerName = (newName) => {playerName = newName};
+    const getPlayerName = () => {return playerName};
+    const updateScore = () => score++;
+    const getScore = () => {return score}
 
-    return {name, updateScore,}
+    return {updatePlayerName, getPlayerName, updateScore, getScore,}
 }
 
-const one = newPlayer('one');
-const two = newPlayer('two');
+const playerOne = newPlayer('Player One');
+const playerTwo = newPlayer('Player Two');
 
-domControl.updateBoard()
+domControl.configureBoard();
+domControl.renderNewName();
 
 
 

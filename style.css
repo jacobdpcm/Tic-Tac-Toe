@@ -27,6 +27,11 @@ body {
     justify-content: space-between;
 }
 
+img {
+    width: 15px;
+    height: auto;
+}
+
 .player2score {
     text-align: end;
 }
@@ -55,14 +60,25 @@ body {
     margin-right: 1rem;
 }
 
-.wrapper {
-    
-}
-
 .roundEnd {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
     text-align: center;
     padding: 1rem;
-    font-size: 24pt;
+    font-size: 30pt;
+    height: 3rem;
+}
+
+.roundEnd button {
+    border-radius: 10px;
+    border: none;
+    background-color: maroon;
+    color: white;
+}
+
+.buttonHide {
+    display: none;
 }
 
 .board {
