@@ -17,7 +17,8 @@ body {
 .header{
     font-size: 52pt;
     padding: 1rem;
-    width: 850px;
+    width: 1000px;
+    text-align: center;
 }
 
 .score {
